@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Premium Content</title>
+    <!-- ⬇️ TrafficStars Popunder Ad Code ထည့်ရန်နေရာ -->
+    <script>
+        // Paste your TrafficStars Popunder Code here
+    </script>
+    
+    <style>
+        :root { --accent: #ff4500; --bg: #0a0a0a; --card: #161616; --text: #e0e0e0; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; }
+        
+        /* Navbar */
+        nav { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+        .logo { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: -1px; }
+        .logo span { color: var(--accent); }
+        
+        /* Hero Section */
+        .hero { padding: 60px 5%; text-align: center; }
+        .hero h1 { font-size: 40px; margin-bottom: 20px; }
+        
+        /* Video Grid - International Look */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 20px 5%; }
+        .video-card { background: var(--card); border-radius: 12px; overflow: hidden; transition: 0.3s; border: 1px solid #222; }
+        .video-card:hover { transform: translateY(-10px); border-color: var(--accent); }
+        .video-thumb { width: 100%; aspect-ratio: 16/9; background: #222; }
+        .video-info { padding: 15px; }
+        .video-info h3 { font-size: 16px; margin: 0 0 10px 0; }
+        
+        /* Button */
+        .btn { background: var(--accent); color: white; padding: 12px 25px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">GLOBAL<span>PREM</span></div>
+    <div><button class="btn">Login</button></div>
+</nav>
+
+<div class="hero">
+    <h1>Exclusive Content Daily</h1>
+    <p>The best collection of premium adult entertainment worldwide.</p>
+</div>
+
+<div class="grid" id="videoContainer">
+    <!-- Videos will be injected here -->
+</div>
+
+<script>
+    // TrafficStars API သို့မဟုတ် အခြား feed တစ်ခုခုနဲ့ ချိတ်ဆက်ဖို့ နေရာ
+    const loadContent = () => {
+        const container = document.getElementById('videoContainer');
+        for(let i=0; i<8; i++) {
+            container.innerHTML += `
+                <div class="video-card">
+                    <div class="video-thumb"></div>
+                    <div class="video-info">
+                        <h3>Premium Scene ${i+1}</h3>
+                        <button class="btn" style="width:100%">Watch Now</button>
+                    </div>
+                </div>
+            `;
+        }
+    };
+    loadContent();
+</script>
+
+<!-- ⬇️ TrafficStars In-Page Push Ad Code ထည့်ရန်နေရာ -->
+<script>
+    // Paste your TrafficStars In-Page Push Code here
+</script>
+
+</body>
+</html>
