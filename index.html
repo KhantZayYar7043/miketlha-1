@@ -56,9 +56,14 @@
         .video-info { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
         .video-title { font-size: 15px; font-weight: 600; line-height: 1.4; margin-bottom: 12px; height: 42px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
         .views-count { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
-        .play-btn { background-color: var(--accent); color: white; border: none; border-radius: 6px; padding: 10px; font-weight: 600; text-align: center; block-size: auto; }
+        .play-btn { background-color: var(--accent); color: white; border: none; border-radius: 6px; padding: 10px; font-weight: 600; text-align: center; }
 
-        /* 🎬 Dedicated Video View Page Layout (သီးသန့် စာမျက်နှာ ဒီဇိုင်း) */
+        /* 🔄 "နောက်ထပ်ကြည့်ရန်" Button Styling */
+        .load-more-container { text-align: center; margin: 40px 0 20px 0; width: 100%; }
+        .btn-load-more { background-color: transparent; color: #fff; border: 2px solid var(--accent); padding: 14px 40px; font-size: 16px; font-weight: 700; border-radius: 30px; cursor: pointer; transition: 0.3s; min-width: 220px; }
+        .btn-load-more:hover { background-color: var(--accent); box-shadow: 0 0 15px rgba(255, 69, 0, 0.4); }
+
+        /* Dedicated Video View Page Layout */
         .watch-page-container { display: none; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 20px; }
         .player-main-box { width: 100%; }
         .iframe-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
@@ -69,7 +74,7 @@
         .sidebar-title { font-size: 18px; font-weight: 700; margin-bottom: 15px; border-left: 4px solid var(--accent); padding-left: 10px; }
         .sidebar-grid { display: flex; flex-direction: column; gap: 20px; }
 
-        /* 🔞 18+ Gate Warning Popup */
+        /* 🔞 Age Gate Warning Popup */
         .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px); padding: 20px; }
         .popup-content { background-color: #141414; border: 2px solid var(--accent); border-radius: 16px; max-width: 500px; width: 100%; padding: 40px 30px; text-align: center; box-shadow: 0 0 30px rgba(255, 69, 0, 0.3); }
         .popup-icon { font-size: 50px; margin-bottom: 15px; }
@@ -84,7 +89,6 @@
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .status-msg { text-align: center; color: var(--text-muted); padding: 40px; grid-column: 1 / -1; }
 
-        /* Responsive Layout fixes */
         @media (max-width: 992px) {
             .watch-page-container { grid-template-columns: 1fr; }
         }
@@ -123,6 +127,10 @@
             <p>Enjoy randomized high-quality updates with maximum privacy and speed. (VPN Required)</p>
         </div>
         <div class="video-grid" id="videoContainer"></div>
+        
+        <div class="load-more-container" id="loadMoreSection" style="display: none;">
+            <button class="btn-load-more" onclick="loadMoreContent()">နောက်ထပ်ကြည့်ရန် 🔄</button>
+        </div>
     </div>
 
     <div class="watch-page-container" id="watchPageWrapper">
@@ -144,20 +152,20 @@
 <script>
     const API_BASE = 'https://www.eporner.com/api/v2/video/search/';
     let currentQuery = 'myanmar'; 
-    let originalVideos = [];
+    let currentPage = 1;
 
     document.addEventListener("DOMContentLoaded", () => {
         const hasAccepted = localStorage.getItem("adult_warning_accepted");
         if (hasAccepted === "true") {
             document.getElementById("warningPopup").style.display = "none";
-            fetchEpornerVideos(currentQuery);
+            initFetch();
         }
     });
 
     function acceptWarning() {
         localStorage.setItem("adult_warning_accepted", "true");
         document.getElementById("warningPopup").style.display = "none";
-        fetchEpornerVideos(currentQuery);
+        initFetch();
     }
 
     function rejectWarning() {
@@ -174,45 +182,54 @@
         return array;
     }
 
-    async function fetchEpornerVideos(query) {
+    function initFetch() {
+        currentPage = Math.floor(Math.random() * 15) + 1; // Start from random page
+        fetchEpornerVideos(currentQuery, currentPage, false);
+    }
+
+    async function fetchEpornerVideos(query, page, isAppend = false) {
         const loader = document.getElementById("gridLoader");
         const container = document.getElementById("videoContainer");
+        const loadMoreSection = document.getElementById("loadMoreSection");
         
         loader.style.display = "block";
-        container.innerHTML = "";
+        loadMoreSection.style.display = "none";
+        
+        if (!isAppend) { container.innerHTML = ""; }
 
-        const randomPage = Math.floor(Math.random() * 20) + 1;
-        const targetUrl = `${API_BASE}?query=${encodeURIComponent(query)}&per_page=30&page=${randomPage}&thumbsize=big`;
+        const targetUrl = `${API_BASE}?query=${encodeURIComponent(query)}&per_page=24&page=${page}&thumbsize=big`;
 
         try {
             const res = await fetch(targetUrl);
             const data = await res.json();
 
             if (data && data.videos && data.videos.length > 0) {
-                originalVideos = shuffleArray(data.videos);
-                renderVideoGrid(originalVideos);
+                const randomizedBatch = shuffleArray(data.videos);
+                renderVideoGrid(randomizedBatch, isAppend);
+                loadMoreSection.style.display = "block";
             } else {
-                container.innerHTML = `<div class="status-msg">No videos found. Please try another search keyword.</div>`;
+                if (!isAppend) {
+                    container.innerHTML = `<div class="status-msg">No videos found. Please try another search keyword.</div>`;
+                }
             }
         } catch (error) {
             console.error("API error:", error);
-            container.innerHTML = `<div class="status-msg">API Error: Please ensure your VPN is turned ON.</div>`;
+            if (!isAppend) {
+                container.innerHTML = `<div class="status-msg">API Error: Please ensure your VPN is turned ON.</div>`;
+            }
         } finally {
             loader.style.display = "none";
         }
     }
 
-    function renderVideoGrid(videos) {
+    function renderVideoGrid(videos, isAppend) {
         const container = document.getElementById("videoContainer");
-        container.innerHTML = "";
-
         videos.forEach(v => {
             const card = createVideoCardElement(v);
             container.appendChild(card);
         });
     }
 
-    // Video Card Helper Component
     function createVideoCardElement(v) {
         const title = v.title;
         const thumb = v.default_thumb ? v.default_thumb.src : '';
@@ -237,21 +254,21 @@
         return card;
     }
 
-    // 🎬 Video View Page သို့ ပြောင်းလဲပြသပေးသည့် စနစ်
-    function switchToVideoViewPage(embedUrl, title, views) {
-        // Scroll ကို ထိပ်ဆုံးပြန်တင်ပေးရန်
-        window.scrollTo({top: 0, behavior: 'smooth'});
+    // 🔄 "နောက်ထပ်ကြည့်ရန်" Action Trigger
+    function loadMoreContent() {
+        currentPage++;
+        fetchEpornerVideos(currentQuery, currentPage, true);
+    }
 
-        // Home Wrapper ကို ပိတ်ပြီး Watch Page Container ကို ဖွင့်မည်
+    function switchToVideoViewPage(embedUrl, title, views) {
+        window.scrollTo({top: 0, behavior: 'smooth'});
         document.getElementById("homePageWrapper").style.display = "none";
         document.getElementById("watchPageWrapper").style.display = "grid";
 
-        // Player အချက်အလက်များ သွင်းခြင်း
         document.getElementById("mainVideoPlayer").src = embedUrl;
         document.getElementById("mainVideoTitle").innerText = title;
         document.getElementById("mainVideoViews").innerText = `👁️ ${views} views`;
 
-        // Related Content Sidebar အတွက် လက်ရှိကျန်တဲ့ဗီဒီယိုတွေကို ပြန်စီပေးခြင်း
         renderSidebarContent();
     }
 
@@ -259,37 +276,38 @@
         const sidebarContainer = document.getElementById("sidebarContainer");
         sidebarContainer.innerHTML = "";
         
-        // originalVideos ထဲက ကောင်တွေကို နောက်ထပ်တစ်ခါ လှည့်ပတ်ပြီး Sidebar မှာ ၈ ကောင်ခန့် ပြပေးမယ်
-        const shuffledSidebar = shuffleArray([...originalVideos]).slice(0, 8);
-        
-        shuffledSidebar.forEach(v => {
-            const card = createVideoCardElement(v);
-            sidebarContainer.appendChild(card);
-        });
+        const randomPage = Math.floor(Math.random() * 20) + 1;
+        fetch(`${API_BASE}?query=${encodeURIComponent(currentQuery)}&per_page=6&page=${randomPage}&thumbsize=big`)
+            .then(res => res.json())
+            .then(data => {
+                if(data && data.videos) {
+                    shuffleArray(data.videos).forEach(v => {
+                        const card = createVideoCardElement(v);
+                        sidebarContainer.appendChild(card);
+                    });
+                }
+            }).catch(err => console.log(err));
     }
 
     function resetToHome() {
-        // Player နေရာကို ရှင်းလင်းပြီး Home သို့ ပြန်သွားမည်
         document.getElementById("mainVideoPlayer").src = "";
         document.getElementById("watchPageWrapper").style.display = "none";
         document.getElementById("homePageWrapper").style.display = "block";
-        
         document.getElementById("searchInput").value = "";
         currentQuery = 'myanmar';
-        fetchEpornerVideos(currentQuery);
+        initFetch();
     }
 
-    // Search Box Logic
     function handleSearch() {
         const value = document.getElementById("searchInput").value.trim();
         if (value !== "") {
-            // ရှာဖွေမှုလုပ်လျှင် Home View သို့ အလိုအလျောက် ပြန်ပို့ပေးရန်
             document.getElementById("mainVideoPlayer").src = "";
             document.getElementById("watchPageWrapper").style.display = "none";
             document.getElementById("homePageWrapper").style.display = "block";
             
             currentQuery = value;
-            fetchEpornerVideos(currentQuery);
+            currentPage = 1;
+            fetchEpornerVideos(currentQuery, currentPage, false);
         }
     }
 </script>
