@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Global Premium Entertainment</title>
     
+    <!-- ⬇️ TrafficStars Popunder Ad Code ထည့်ရန်နေရာ -->
     <script>
         // TODO: Paste your TrafficStars Popunder Code here
     </script>
@@ -58,23 +59,23 @@
         .views-count { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
         .play-btn { background-color: var(--accent); color: white; border: none; border-radius: 6px; padding: 10px; font-weight: 600; text-align: center; }
 
-        /* 🔄 "နောက်ထပ်ကြည့်ရန်" Button Styling */
-        .load-more-container { text-align: center; margin: 40px 0 20px 0; width: 100%; }
-        .btn-load-more { background-color: transparent; color: #fff; border: 2px solid var(--accent); padding: 14px 40px; font-size: 16px; font-weight: 700; border-radius: 30px; cursor: pointer; transition: 0.3s; min-width: 220px; }
+        /* 🔄 "Watch More / Load More" Button Styling */
+        .load-more-container { text-align: center; margin: 30px 0 20px 0; width: 100%; }
+        .btn-load-more { background-color: transparent; color: #fff; border: 2px solid var(--accent); padding: 12px 35px; font-size: 15px; font-weight: 700; border-radius: 30px; cursor: pointer; transition: 0.3s; min-width: 200px; }
         .btn-load-more:hover { background-color: var(--accent); box-shadow: 0 0 15px rgba(255, 69, 0, 0.4); }
 
-        /* Dedicated Video View Page Layout */
+        /* 🎬 Dedicated Video View Page Layout */
         .watch-page-container { display: none; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 20px; }
         .player-main-box { width: 100%; }
         .iframe-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
         .iframe-wrapper iframe { width: 100%; height: 100%; border: none; }
         .watch-title { font-size: 22px; font-weight: 700; margin: 20px 0 10px 0; color: #fff; line-height: 1.4; }
         
-        /* Related Sidebar Section */
+        /* Sidebar For More Random Content */
         .sidebar-title { font-size: 18px; font-weight: 700; margin-bottom: 15px; border-left: 4px solid var(--accent); padding-left: 10px; }
         .sidebar-grid { display: flex; flex-direction: column; gap: 20px; }
 
-        /* 🔞 Age Gate Warning Popup */
+        /* 🔞 18+ Gate Warning Popup */
         .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px); padding: 20px; }
         .popup-content { background-color: #141414; border: 2px solid var(--accent); border-radius: 16px; max-width: 500px; width: 100%; padding: 40px 30px; text-align: center; box-shadow: 0 0 30px rgba(255, 69, 0, 0.3); }
         .popup-icon { font-size: 50px; margin-bottom: 15px; }
@@ -96,6 +97,7 @@
 </head>
 <body>
 
+<!-- Age Alert Popup Gate -->
 <div class="popup-overlay" id="warningPopup">
     <div class="popup-content">
         <div class="popup-icon">🔞</div>
@@ -121,6 +123,7 @@
 <div class="main-container">
     <div class="loader" id="gridLoader"></div>
 
+    <!-- 🏠 HOME PAGE VIEW SECTION -->
     <div id="homePageWrapper">
         <div class="hero">
             <h1>International Premium Network</h1>
@@ -128,11 +131,13 @@
         </div>
         <div class="video-grid" id="videoContainer"></div>
         
+        <!-- Home Page "နောက်ထပ်ကြည့်ရန်" Button -->
         <div class="load-more-container" id="loadMoreSection" style="display: none;">
             <button class="btn-load-more" onclick="loadMoreContent()">နောက်ထပ်ကြည့်ရန် 🔄</button>
         </div>
     </div>
 
+    <!-- 🎬 DEDICATED VIDEO VIEW PAGE SECTION -->
     <div class="watch-page-container" id="watchPageWrapper">
         <div class="player-main-box">
             <div class="iframe-wrapper">
@@ -142,9 +147,15 @@
             <div style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;" id="mainVideoViews">👁️ 0 views</div>
         </div>
         
+        <!-- Sidebar Section -->
         <div class="sidebar-box">
             <h3 class="sidebar-title">Related Content</h3>
             <div class="sidebar-grid" id="sidebarContainer"></div>
+            
+            <!-- ⬇️ Sidebar "နောက်ထပ်ကြည့်ရန်" Button -->
+            <div class="load-more-container" id="sidebarLoadMoreSection" style="display: none;">
+                <button class="btn-load-more" onclick="loadMoreSidebarContent()">နောက်ထပ်ကြည့်ရန် 🔄</button>
+            </div>
         </div>
     </div>
 </div>
@@ -152,7 +163,8 @@
 <script>
     const API_BASE = 'https://www.eporner.com/api/v2/video/search/';
     let currentQuery = 'myanmar'; 
-    let currentPage = 1;
+    let currentPage = 1;      // Page Tracker for Home Page
+    let sidebarPage = 1;      // Page Tracker for Watch/Sidebar Page
 
     document.addEventListener("DOMContentLoaded", () => {
         const hasAccepted = localStorage.getItem("adult_warning_accepted");
@@ -183,7 +195,7 @@
     }
 
     function initFetch() {
-        currentPage = Math.floor(Math.random() * 15) + 1; // Start from random page
+        currentPage = Math.floor(Math.random() * 15) + 1; 
         fetchEpornerVideos(currentQuery, currentPage, false);
     }
 
@@ -254,12 +266,13 @@
         return card;
     }
 
-    // 🔄 "နောက်ထပ်ကြည့်ရန်" Action Trigger
+    // 🔄 Home Page "နောက်ထပ်ကြည့်ရန်" Function
     function loadMoreContent() {
         currentPage++;
         fetchEpornerVideos(currentQuery, currentPage, true);
     }
 
+    // Video View Page Setup
     function switchToVideoViewPage(embedUrl, title, views) {
         window.scrollTo({top: 0, behavior: 'smooth'});
         document.getElementById("homePageWrapper").style.display = "none";
@@ -269,24 +282,40 @@
         document.getElementById("mainVideoTitle").innerText = title;
         document.getElementById("mainVideoViews").innerText = `👁️ ${views} views`;
 
-        renderSidebarContent();
+        // Reset Sidebar Page to a random point
+        sidebarPage = Math.floor(Math.random() * 20) + 1;
+        renderSidebarContent(false);
     }
 
-    function renderSidebarContent() {
+    // Fetch Sidebar Content
+    async function renderSidebarContent(isAppend = false) {
         const sidebarContainer = document.getElementById("sidebarContainer");
-        sidebarContainer.innerHTML = "";
+        const sidebarLoadMoreSection = document.getElementById("sidebarLoadMoreSection");
         
-        const randomPage = Math.floor(Math.random() * 20) + 1;
-        fetch(`${API_BASE}?query=${encodeURIComponent(currentQuery)}&per_page=6&page=${randomPage}&thumbsize=big`)
-            .then(res => res.json())
-            .then(data => {
-                if(data && data.videos) {
-                    shuffleArray(data.videos).forEach(v => {
-                        const card = createVideoCardElement(v);
-                        sidebarContainer.appendChild(card);
-                    });
-                }
-            }).catch(err => console.log(err));
+        if (!isAppend) { sidebarContainer.innerHTML = ""; }
+        sidebarLoadMoreSection.style.display = "none";
+
+        const targetUrl = `${API_BASE}?query=${encodeURIComponent(currentQuery)}&per_page=6&page=${sidebarPage}&thumbsize=big`;
+        
+        try {
+            const res = await fetch(targetUrl);
+            const data = await res.json();
+            if (data && data.videos && data.videos.length > 0) {
+                shuffleArray(data.videos).forEach(v => {
+                    const card = createVideoCardElement(v);
+                    sidebarContainer.appendChild(card);
+                });
+                sidebarLoadMoreSection.style.display = "block";
+            }
+        } catch (err) {
+            console.error("Sidebar load error:", err);
+        }
+    }
+
+    // 🔄 Sidebar Page "နောက်ထပ်ကြည့်ရန်" Function
+    function loadMoreSidebarContent() {
+        sidebarPage++;
+        renderSidebarContent(true);
     }
 
     function resetToHome() {
@@ -312,6 +341,7 @@
     }
 </script>
 
+<!-- ⬇️ TrafficStars In-Page Push Ad Code ထည့်ရန်နေရာ -->
 <script>
     // TODO: Paste your TrafficStars In-Page Push Code here
 </script>
