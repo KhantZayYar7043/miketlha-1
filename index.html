@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="juicyads-site-verification" content="0d104fec35a38698b8d0fab5e962aab3">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Global Premium Entertainment</title>
     
-    <!-- ⬇️ TrafficStars Popunder Ad Code ထည့်ရန်နေရာ -->
     <script>
-        // TODO: Paste your TrafficStars Popunder Code here
+        // TODO: Paste your JuicyAds Popunder Script Code here (If any)
     </script>
     
     <style>
@@ -97,7 +98,6 @@
 </head>
 <body>
 
-<!-- Age Alert Popup Gate -->
 <div class="popup-overlay" id="warningPopup">
     <div class="popup-content">
         <div class="popup-icon">🔞</div>
@@ -123,7 +123,6 @@
 <div class="main-container">
     <div class="loader" id="gridLoader"></div>
 
-    <!-- 🏠 HOME PAGE VIEW SECTION -->
     <div id="homePageWrapper">
         <div class="hero">
             <h1>International Premium Network</h1>
@@ -131,13 +130,11 @@
         </div>
         <div class="video-grid" id="videoContainer"></div>
         
-        <!-- Home Page "နောက်ထပ်ကြည့်ရန်" Button -->
         <div class="load-more-container" id="loadMoreSection" style="display: none;">
             <button class="btn-load-more" onclick="loadMoreContent()">နောက်ထပ်ကြည့်ရန် 🔄</button>
         </div>
     </div>
 
-    <!-- 🎬 DEDICATED VIDEO VIEW PAGE SECTION -->
     <div class="watch-page-container" id="watchPageWrapper">
         <div class="player-main-box">
             <div class="iframe-wrapper">
@@ -147,12 +144,10 @@
             <div style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;" id="mainVideoViews">👁️ 0 views</div>
         </div>
         
-        <!-- Sidebar Section -->
         <div class="sidebar-box">
             <h3 class="sidebar-title">Related Content</h3>
             <div class="sidebar-grid" id="sidebarContainer"></div>
             
-            <!-- ⬇️ Sidebar "နောက်ထပ်ကြည့်ရန်" Button -->
             <div class="load-more-container" id="sidebarLoadMoreSection" style="display: none;">
                 <button class="btn-load-more" onclick="loadMoreSidebarContent()">နောက်ထပ်ကြည့်ရန် 🔄</button>
             </div>
@@ -163,8 +158,8 @@
 <script>
     const API_BASE = 'https://www.eporner.com/api/v2/video/search/';
     let currentQuery = 'myanmar'; 
-    let currentPage = 1;      // Page Tracker for Home Page
-    let sidebarPage = 1;      // Page Tracker for Watch/Sidebar Page
+    let currentPage = 1;      
+    let sidebarPage = 1;      
 
     document.addEventListener("DOMContentLoaded", () => {
         const hasAccepted = localStorage.getItem("adult_warning_accepted");
@@ -266,13 +261,11 @@
         return card;
     }
 
-    // 🔄 Home Page "နောက်ထပ်ကြည့်ရန်" Function
     function loadMoreContent() {
         currentPage++;
         fetchEpornerVideos(currentQuery, currentPage, true);
     }
 
-    // Video View Page Setup
     function switchToVideoViewPage(embedUrl, title, views) {
         window.scrollTo({top: 0, behavior: 'smooth'});
         document.getElementById("homePageWrapper").style.display = "none";
@@ -282,12 +275,10 @@
         document.getElementById("mainVideoTitle").innerText = title;
         document.getElementById("mainVideoViews").innerText = `👁️ ${views} views`;
 
-        // Reset Sidebar Page to a random point
         sidebarPage = Math.floor(Math.random() * 20) + 1;
         renderSidebarContent(false);
     }
 
-    // Fetch Sidebar Content
     async function renderSidebarContent(isAppend = false) {
         const sidebarContainer = document.getElementById("sidebarContainer");
         const sidebarLoadMoreSection = document.getElementById("sidebarLoadMoreSection");
@@ -312,7 +303,6 @@
         }
     }
 
-    // 🔄 Sidebar Page "နောက်ထပ်ကြည့်ရန်" Function
     function loadMoreSidebarContent() {
         sidebarPage++;
         renderSidebarContent(true);
@@ -339,11 +329,6 @@
             fetchEpornerVideos(currentQuery, currentPage, false);
         }
     }
-</script>
-
-<!-- ⬇️ TrafficStars In-Page Push Ad Code ထည့်ရန်နေရာ -->
-<script>
-    // TODO: Paste your TrafficStars In-Page Push Code here
 </script>
 
 </body>
