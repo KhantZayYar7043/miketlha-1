@@ -104,12 +104,12 @@
         "popup_force": true,
         "chrome_enabled": true,
         "new_tab": false,
-        "frequency_period": 0,        /* ပြင်ဆင်ချက်: 0 စက္ကန့် */
-        "frequency_count": 99,        /* ပြင်ဆင်ချက်: အကြိမ်ရေ အမြင့်ဆုံးမြှင့်ထားသည် */
-        "trigger_method": 1,          /* ပြင်ဆင်ချက်: Method 1 (Click Anywhere On Page) */
+        "frequency_period": 0,        /* Optimization: For No Capping */
+        "frequency_count": 99,        /* Optimization: Show Everytime */
+        "trigger_method": 1,          /* Method 1: Click Anywhere on Page */
         "trigger_class": "",
         "trigger_delay": 0,
-        "capping_enabled": false,     /* ပြင်ဆင်ချက်: Capping စနစ်ကို ပိတ်ထားသည် */
+        "capping_enabled": false,     /* Capping Off Successfully */
         "tcf_enabled": true,
         "only_inline": false
     };
@@ -160,7 +160,7 @@
     <div class="watch-page-container" id="watchPageWrapper">
         <div class="player-main-box">
             <div class="player-wrapper">
-                <iframe id="mainVideoEmbed" src="" allowfullscreen></iframe>
+                <iframe id="mainVideoEmbed" src="" allowfullscreen data-vast="https://s.magsrv.com/v1/vast.php?idz=5962848"></iframe>
             </div>
             <h2 class="watch-title" id="mainVideoTitle">Premium Exclusive Video Title</h2>
             <div style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;" id="mainVideoViews">👁️ 0 views</div>
