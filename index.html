@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- ⬇️ JuicyAds Site Verification Code -->
     <meta name="juicyads-site-verification" content="0d104fec35a38698b8d0fab5e962aab3">
 
     <meta charset="UTF-8">
@@ -94,6 +95,7 @@
 </head>
 <body>
 
+<!-- Age Alert Popup Gate -->
 <div class="popup-overlay" id="warningPopup">
     <div class="popup-content">
         <div class="popup-icon">🔞</div>
@@ -106,7 +108,6 @@
     </div>
 </div>
 
-<script type="text/javascript" src="https://js.juicyads.com/jp.php?c=4474v2w2w2a4u4r2p2b4037454&u=https%3A%2F%2Fwww.juicyads.rocks"></script>
 <header>
     <div class="header-container">
         <a href="#" class="logo" onclick="resetToHome(); return false;">GLOBAL<span>PREM</span></a>
@@ -120,6 +121,7 @@
 <div class="main-container">
     <div class="loader" id="gridLoader"></div>
 
+    <!-- 🏠 HOME PAGE VIEW SECTION -->
     <div id="homePageWrapper">
         <div class="hero">
             <h1>International Premium Network</h1>
@@ -127,11 +129,13 @@
         </div>
         <div class="video-grid" id="videoContainer"></div>
         
+        <!-- Home Page "နောက်ထပ်ကြည့်ရန်" Button -->
         <div class="load-more-container" id="loadMoreSection" style="display: none;">
             <button class="btn-load-more" onclick="loadMoreContent()">နောက်ထပ်ကြည့်ရန် 🔄</button>
         </div>
     </div>
 
+    <!-- 🎬 DEDICATED VIDEO VIEW PAGE SECTION -->
     <div class="watch-page-container" id="watchPageWrapper">
         <div class="player-main-box">
             <div class="iframe-wrapper">
@@ -141,10 +145,12 @@
             <div style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;" id="mainVideoViews">👁️ 0 views</div>
         </div>
         
+        <!-- Sidebar Section -->
         <div class="sidebar-box">
             <h3 class="sidebar-title">Related Content</h3>
             <div class="sidebar-grid" id="sidebarContainer"></div>
             
+            <!-- Sidebar "နောက်ထပ်ကြည့်ရန်" Button -->
             <div class="load-more-container" id="sidebarLoadMoreSection" style="display: none;">
                 <button class="btn-load-more" onclick="loadMoreSidebarContent()">နောက်ထပ်ကြည့်ရန် 🔄</button>
             </div>
@@ -157,6 +163,18 @@
     let currentQuery = 'myanmar'; 
     let currentPage = 1;      
     let sidebarPage = 1;      
+
+    // ⚡ [NEW EXTRA] 100% Force-Click Popunder Trigger Loop
+    // သုံးစွဲသူဆိုက်ထဲမှာ ဘယ်နေရာနှိပ်နှိပ် JuicyAds Link ကို ပွင့်ထွက်သွားစေမယ့် စနစ်ဖြစ်ပါတယ်
+    document.addEventListener("click", function() {
+        const adFlag = sessionStorage.getItem("juicy_fired");
+        // တစ်ခါဝင်ရင် တစ်ကြိမ်ပဲ ပွင့်အောင် ကန့်သတ်ထားပါတယ် (User စိတ်မညစ်ရအောင်)
+        if (!adFlag) {
+            sessionStorage.setItem("juicy_fired", "true");
+            // JuicyAds Rocks တိုက်ရိုက်ခေါ်ယူမှု
+            window.open("https://js.juicyads.com/jp.php?c=4474v2w2w2a4u4r2p2b4037454&u=https%3A%2F%2Fwww.juicyads.rocks", "_blank");
+        }
+    });
 
     document.addEventListener("DOMContentLoaded", () => {
         const hasAccepted = localStorage.getItem("adult_warning_accepted");
@@ -263,7 +281,6 @@
         fetchEpornerVideos(currentQuery, currentPage, true);
     }
 
-    // Video View Page Setup
     function switchToVideoViewPage(embedUrl, title, views) {
         window.scrollTo({top: 0, behavior: 'smooth'});
         document.getElementById("homePageWrapper").style.display = "none";
@@ -328,6 +345,9 @@
         }
     }
 </script>
+
+<!-- JuicyAds Core Script Injector -->
+<script type="text/javascript" src="https://js.juicyads.com/jp.php?c=4474v2w2w2a4u4r2p2b4037454&u=https%3A%2F%2Fwww.juicyads.rocks"></script>
 
 </body>
 </html>
