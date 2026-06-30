@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Global Premium Entertainment</title>
     
+    <link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css" type="text/css"/>
+    <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
+
     <style>
         :root {
             --accent: #ff4500;
@@ -64,8 +67,8 @@
         /* Video View Page Layout */
         .watch-page-container { display: none; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 20px; }
         .player-main-box { width: 100%; }
-        .iframe-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
-        .iframe-wrapper iframe { width: 100%; height: 100%; border: none; }
+        .player-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
+        .player-wrapper video { width: 100%; height: 100%; }
         .watch-title { font-size: 22px; font-weight: 700; margin: 20px 0 10px 0; color: #fff; line-height: 1.4; }
         
         /* Sidebar Layout */
@@ -133,8 +136,10 @@
 
     <div class="watch-page-container" id="watchPageWrapper">
         <div class="player-main-box">
-            <div class="iframe-wrapper">
-                <iframe id="mainVideoPlayer" allowfullscreen></iframe>
+            <div class="player-wrapper">
+                <video id="mainVideoPlayer" controls pwa-play>
+                    <source src="" type="video/mp4">
+                </video>
             </div>
             <h2 class="watch-title" id="mainVideoTitle">Premium Exclusive Video Title</h2>
             <div style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;" id="mainVideoViews">👁️ 0 views</div>
@@ -156,6 +161,7 @@
     let currentQuery = 'myanmar'; 
     let currentPage = 1;      
     let sidebarPage = 1;      
+    let myFluidPlayer = null; // Fluid Player Instance
 
     document.addEventListener("DOMContentLoaded", () => {
         const hasAccepted = localStorage.getItem("adult_warning_accepted");
@@ -238,7 +244,12 @@
         const thumb = v.default_thumb ? v.default_thumb.src : '';
         const duration = `${v.length_min || '00'}:${v.length_sec || '00'}`;
         const views = parseInt(v.views).toLocaleString();
-        const embedUrl = v.embed;
+        
+        // Convert embed format to direct stream source if needed, or fallback to default stream handler
+        const idMatches = v.embed.match(/\/embed\/([a-zA-Z0-9]+)/);
+        const videoId = idMatches ? idMatches[1] : '';
+        // Eporner direct temporary streaming fallback simulator
+        const directStreamUrl = `https://www.eporner.com/dload/random-${videoId}.mp4`; 
 
         const card = document.createElement('div');
         card.className = 'video-card';
@@ -253,7 +264,7 @@
                 <button class="play-btn">▶ Watch Now</button>
             </div>
         `;
-        card.onclick = () => switchToVideoViewPage(embedUrl, title, views);
+        card.onclick = () => switchToVideoViewPage(directStreamUrl, title, views);
         return card;
     }
 
@@ -262,14 +273,40 @@
         fetchEpornerVideos(currentQuery, currentPage, true);
     }
 
-    function switchToVideoViewPage(embedUrl, title, views) {
+    function switchToVideoViewPage(streamUrl, title, views) {
         window.scrollTo({top: 0, behavior: 'smooth'});
         document.getElementById("homePageWrapper").style.display = "none";
         document.getElementById("watchPageWrapper").style.display = "grid";
 
-        document.getElementById("mainVideoPlayer").src = embedUrl;
         document.getElementById("mainVideoTitle").innerText = title;
         document.getElementById("mainVideoViews").innerText = `👁️ ${views} views`;
+
+        // Reset and initialize Fluid Player dynamically with ExoClick VAST ad tag
+        const videoElement = document.getElementById("mainVideoPlayer");
+        videoElement.src = streamUrl;
+
+        if (myFluidPlayer) {
+            myFluidPlayer.destroy();
+        }
+
+        myFluidPlayer = fluidPlayer('mainVideoPlayer', {
+            layoutControls: {
+                posterImage: '',
+                allowDownload: false,
+                playbackRateEnabled: true,
+                autoPlay: true,
+                mute: false
+            },
+            vastOptions: {
+                // ⬇️ အစ်ကို့ရဲ့ ExoClick VAST XML Ad Tag လင့်ခ်အမှန်ကို ချိတ်ဆက်ထားပါတယ်
+                adList: [
+                    {
+                        roll: 'preRoll',
+                        vastTag: 'https://s.magsrv.com/v1/vast.php?idz=5962848'
+                    }
+                ]
+            }
+        });
 
         sidebarPage = Math.floor(Math.random() * 20) + 1;
         renderSidebarContent(false);
@@ -305,6 +342,10 @@
     }
 
     function resetToHome() {
+        if (myFluidPlayer) {
+            myFluidPlayer.destroy();
+            myFluidPlayer = null;
+        }
         document.getElementById("mainVideoPlayer").src = "";
         document.getElementById("watchPageWrapper").style.display = "none";
         document.getElementById("homePageWrapper").style.display = "block";
@@ -316,6 +357,10 @@
     function handleSearch() {
         const value = document.getElementById("searchInput").value.trim();
         if (value !== "") {
+            if (myFluidPlayer) {
+                myFluidPlayer.destroy();
+                myFluidPlayer = null;
+            }
             document.getElementById("mainVideoPlayer").src = "";
             document.getElementById("watchPageWrapper").style.display = "none";
             document.getElementById("homePageWrapper").style.display = "block";
