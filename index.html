@@ -23,39 +23,53 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg); color: var(--text-main); font-family: 'Segoe UI', sans-serif; overflow-x: hidden; padding-bottom: 60px; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Segoe UI', Roboto, sans-serif; overflow-x: hidden; padding-bottom: 60px; }
 
         /* Header Layout */
         header { background-color: rgba(10, 10, 10, 0.95); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; padding: 15px 5%; }
         .header-container { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
-        .logo { font-size: 24px; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; text-transform: uppercase; text-decoration: none; }
+        .logo { font-size: 24px; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; text-transform: uppercase; text-decoration: none; cursor: pointer; }
         .logo span { color: var(--accent); }
 
-        /* Search Box Features */
+        /* Search Box */
         .search-box { position: relative; width: 300px; max-width: 100%; }
         .search-box input { width: 100%; background-color: #1a1a1a; border: 1px solid var(--border-color); border-radius: 20px; padding: 10px 20px; padding-right: 45px; color: var(--text-main); font-size: 14px; transition: 0.3s; }
         .search-box input:focus { outline: none; border-color: var(--accent); background-color: #222; box-shadow: 0 0 8px rgba(255, 69, 0, 0.2); }
-        .search-box button { position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 8px; }
+        .search-box button { position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 8px; font-size: 16px; }
+        .search-box button:hover { color: var(--accent); }
 
-        /* Hero / Headlines */
+        /* Hero Section */
         .hero { max-width: 1400px; margin: 40px auto 20px auto; padding: 0 5%; text-align: center; }
         .hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 10px; }
         .hero p { color: var(--text-muted); font-size: 15px; }
 
-        /* Video Grid Component */
+        /* Video Grid Layout */
         .main-container { max-width: 1400px; margin: 0 auto; padding: 20px 5%; }
         .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        
+        /* Video Card */
         .video-card { background-color: var(--card); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; transition: 0.3s; display: flex; flex-direction: column; }
         .video-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); }
-        .thumbnail-wrapper { position: relative; width: 100%; padding-top: 56.25%; background-color: #1a1a1a; }
-        .thumbnail-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-        .duration-badge { position: absolute; bottom: 8px; right: 8px; background-color: rgba(0, 0, 0, 0.8); padding: 3px 6px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+        .thumbnail-wrapper { position: relative; width: 100%; padding-top: 56.25%; background-color: #1a1a1a; overflow: hidden; }
+        .thumbnail-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .video-card:hover .thumbnail-wrapper img { transform: scale(1.05); }
+        .duration-badge { position: absolute; bottom: 8px; right: 8px; background-color: rgba(0, 0, 0, 0.8); padding: 3px 6px; border-radius: 4px; font-size: 12px; font-weight: 600; color: #fff; }
+        
         .video-info { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
         .video-title { font-size: 15px; font-weight: 600; line-height: 1.4; margin-bottom: 12px; height: 42px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .views-count { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
         .play-btn { background-color: var(--accent); color: white; border: none; border-radius: 6px; padding: 10px; font-weight: 600; text-align: center; cursor: pointer; text-decoration: none; display: block; }
         .play-btn:hover { background-color: var(--accent-hover); }
 
-        /* Popup Box Layout */
+        /* Watch Overlay Layer (Video Player) */
+        .watch-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 200; padding: 20px; }
+        .player-box { background: #111; border: 1px solid var(--accent); width: 100%; max-width: 900px; border-radius: 12px; padding: 15px; position: relative; }
+        .close-player { position: absolute; top: -40px; right: 0; background: none; border: none; color: #fff; font-size: 30px; cursor: pointer; }
+        .iframe-container { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 6px; overflow: hidden; }
+        .iframe-container iframe { width: 100%; height: 100%; border: none; }
+        .player-title { font-size: 16px; font-weight: 600; margin-top: 12px; color: #fff; }
+
+        /* Warning Popup */
         .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px); padding: 20px; }
         .popup-content { background-color: #141414; border: 2px solid var(--accent); border-radius: 16px; max-width: 500px; width: 100%; padding: 40px 30px; text-align: center; box-shadow: 0 0 30px rgba(255, 69, 0, 0.3); }
         .popup-icon { font-size: 50px; margin-bottom: 15px; }
@@ -68,6 +82,7 @@
         
         .loader { display: block; margin: 40px auto; border: 4px solid #222; border-top: 4px solid var(--accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .status-msg { text-align: center; color: var(--text-muted); padding: 40px; grid-column: 1 / -1; }
     </style>
 </head>
 <body>
@@ -85,19 +100,30 @@
     </div>
 </div>
 
+<!-- Video Player Overlay -->
+<div class="watch-overlay" id="watchOverlay">
+    <div class="player-box">
+        <button class="close-player" onclick="closeVideoPlayer()">✕</button>
+        <div class="iframe-container">
+            <iframe id="mainVideoPlayer" allowfullscreen></iframe>
+        </div>
+        <div class="player-title" id="mainVideoTitle"></div>
+    </div>
+</div>
+
 <header>
     <div class="header-container">
-        <a href="#" class="logo" onclick="window.location.reload(); return false;">GLOBAL<span>PREM</span></a>
+        <a href="#" class="logo" onclick="resetToHome(); return false;">GLOBAL<span>PREM</span></a>
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Search premium videos..." onkeyup="if(event.key === 'Enter') triggerSearch()">
-            <button onclick="triggerSearch()">🔍</button>
+            <input type="text" id="searchInput" placeholder="Search premium videos..." onkeyup="if(event.key === 'Enter') handleSearch()">
+            <button onclick="handleSearch()">🔍</button>
         </div>
     </div>
 </header>
 
 <div class="hero">
     <h1>International Premium Network</h1>
-    <p>Enjoy randomized high-quality updates with maximum privacy and speed.</p>
+    <p>Enjoy randomized high-quality updates with maximum privacy and speed. (VPN Required)</p>
 </div>
 
 <div class="main-container">
@@ -106,57 +132,29 @@
 </div>
 
 <script>
-    const CONFIG = {
-        // ⚠️ အစ်ကို့ရဲ့ ယခင် ဗီဒီယို API Feed URL ကို ဒီနေရာမှာ လာရောက်အစားထိုးပေးပါရန်
-        API_URL: 'https://api.mahayti.com/v1/videos', 
-        DEFAULT_THUMBNAIL: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500'
-    };
-
-    let allVideosData = [];
+    const API_BASE = 'https://www.eporner.com/api/v2/video/search/';
+    let currentQuery = 'myanmar'; // Default Keyword
+    let originalVideos = [];
 
     document.addEventListener("DOMContentLoaded", () => {
         const hasAccepted = localStorage.getItem("adult_warning_accepted");
         if (hasAccepted === "true") {
             document.getElementById("warningPopup").style.display = "none";
-            initWebsite();
+            fetchEpornerVideos(currentQuery);
         }
     });
 
     function acceptWarning() {
         localStorage.setItem("adult_warning_accepted", "true");
         document.getElementById("warningPopup").style.display = "none";
-        initWebsite();
+        fetchEpornerVideos(currentQuery);
     }
 
     function rejectWarning() {
         window.location.href = "https://www.google.com";
     }
 
-    async function initWebsite() {
-        const loader = document.getElementById("gridLoader");
-        const container = document.getElementById("videoContainer");
-        try {
-            const response = await fetch(CONFIG.API_URL);
-            const data = await response.json();
-            
-            // API standard ပုံစံအလိုက် Data Array ဖမ်းခြင်း
-            allVideosData = Array.isArray(data) ? data : (data.results || data.data || []);
-            
-            // 🔄 လူကြီးမင်းအတွက် ဗီဒီယိုများကို Random ပတ်ပေးမည့် အပိုင်း
-            allVideosData = shuffleArray(allVideosData);
-            renderVideos(allVideosData);
-        } catch (error) {
-            console.error("API Error, using fallback layout:", error);
-            // API ချိတ်ဆက်မှုမအောင်မြင်ပါက Static Data များအား Random လုပ်ပြီး ဆိုဒ်မပျက်အောင် ထိန်းပေးထားမည်
-            allVideosData = shuffleArray(generateDemoData());
-            renderVideos(allVideosData);
-        } finally {
-            loader.style.display = "none";
-            container.style.display = "grid";
-        }
-    }
-
-    // Fisher-Yates Randomization System
+    // 🔄 Random ပတ်ပေးမည့် Fisher-Yates Algorithm
     function shuffleArray(array) {
         let currentIndex = array.length, randomIndex;
         while (currentIndex != 0) {
@@ -167,50 +165,98 @@
         return array;
     }
 
-    function renderVideos(videos) {
+    async function fetchEpornerVideos(query) {
+        const loader = document.getElementById("gridLoader");
+        const container = document.getElementById("videoContainer");
+        
+        loader.style.display = "block";
+        container.style.display = "none";
+
+        // Random Page သတ်မှတ်ချက် (မထပ်စေရန်)
+        const randomPage = Math.floor(Math.random() * 25) + 1;
+        const targetUrl = `${API_BASE}?query=${encodeURIComponent(query)}&per_page=30&page=${randomPage}&thumbsize=big`;
+
+        try {
+            const res = await fetch(targetUrl);
+            const data = await res.json();
+
+            if (data && data.videos && data.videos.length > 0) {
+                // အစ်ကို့တောင်းဆိုချက်အရ ရလာတဲ့ဗီဒီယိုတွေကို လုံးဝ Random မွှေပစ်ခြင်း
+                originalVideos = shuffleArray(data.videos);
+                renderVideoGrid(originalVideos);
+            } else {
+                container.innerHTML = `<div class="status-msg">No videos found. Please try another search keyword.</div>`;
+            }
+        } catch (error) {
+            console.error("Eporner API connection error:", error);
+            container.innerHTML = `<div class="status-msg">API Error: Please ensure your VPN is turned ON to stream data.</div>`;
+        } finally {
+            loader.style.display = "none";
+            container.style.display = "grid";
+        }
+    }
+
+    function renderVideoGrid(videos) {
         const container = document.getElementById("videoContainer");
         container.innerHTML = "";
-        if (videos.length === 0) {
-            container.innerHTML = `<div class="status-msg">No premium content found.</div>`;
-            return;
-        }
-        videos.forEach(video => {
-            const title = video.title || video.name || "Premium Scene";
-            const thumb = video.thumbnail || video.thumb || video.image || CONFIG.DEFAULT_THUMBNAIL;
-            const link = video.link || video.url || "#";
-            const duration = video.duration || "HD";
-            
-            container.innerHTML += `
-                <div class="video-card">
-                    <div class="thumbnail-wrapper">
-                        <img src="${thumb}" alt="${title}" loading="lazy">
-                        <span class="duration-badge">${duration}</span>
-                    </div>
-                    <div class="video-info">
-                        <h3 class="video-title">${title}</h3>
-                        <a href="${link}" class="play-btn" target="_blank">▶ Watch Now</a>
-                    </div>
-                </div>`;
+
+        videos.forEach(v => {
+            const title = v.title;
+            const thumb = v.default_thumb ? v.default_thumb.src : '';
+            const duration = `${v.length_min || '00'}:${v.length_sec || '00'}`;
+            const views = parseInt(v.views).toLocaleString();
+            const embedUrl = v.embed;
+
+            const card = document.createElement('div');
+            card.className = 'video-card';
+            card.innerHTML = `
+                <div class="thumbnail-wrapper">
+                    <img src="${thumb}" alt="${title}" loading="lazy">
+                    <span class="duration-badge">${duration}</span>
+                </div>
+                <div class="video-info">
+                    <h3 class="video-title">${title}</h3>
+                    <div class="views-count">👁️ ${views} views</div>
+                    <button class="play-btn">▶ Watch Now</button>
+                </div>
+            `;
+            // ကတ်တစ်ခုလုံး နှိပ်ရင် Player ပွင့်စေရန်
+            card.onclick = () => openVideoPlayer(embedUrl, title);
+            container.appendChild(card);
         });
     }
 
-    // Search Engine Filter
-    function triggerSearch() {
-        const query = document.getElementById("searchInput").value.toLowerCase().trim();
-        if (query === "") {
-            renderVideos(shuffleArray([...allVideosData]));
-        } else {
-            const filtered = allVideosData.filter(v => (v.title || v.name || "").toLowerCase().includes(query));
-            renderVideos(filtered);
+    // Video Playback Logic
+    function openVideoPlayer(embedUrl, title) {
+        const overlay = document.getElementById("watchOverlay");
+        const player = document.getElementById("mainVideoPlayer");
+        const titleText = document.getElementById("mainVideoTitle");
+
+        player.src = embedUrl;
+        titleText.innerText = title;
+        overlay.style.display = "flex";
+    }
+
+    function closeVideoPlayer() {
+        const overlay = document.getElementById("watchOverlay");
+        const player = document.getElementById("mainVideoPlayer");
+        player.src = "";
+        overlay.style.display = "none";
+    }
+
+    // Search Engine Handling
+    function handleSearch() {
+        const value = document.getElementById("searchInput").value.trim();
+        if (value !== "") {
+            currentQuery = value;
+            fetchEpornerVideos(currentQuery);
         }
     }
 
-    function generateDemoData() {
-        const demo = [];
-        for (let i = 1; i <= 12; i++) {
-            demo.push({ title: `International Ultra HD Premium Scene ${i}`, thumbnail: CONFIG.DEFAULT_THUMBNAIL, link: '#', duration: '12:45' });
-        }
-        return demo;
+    function resetToHome() {
+        document.getElementById("searchInput").value = "";
+        currentQuery = 'myanmar';
+        fetchEpornerVideos(currentQuery);
     }
 </script>
 
