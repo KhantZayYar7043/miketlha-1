@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- ⬇️ JuicyAds Site Verification Code -->
     <meta name="juicyads-site-verification" content="0d104fec35a38698b8d0fab5e962aab3">
 
     <meta charset="UTF-8">
@@ -57,23 +56,23 @@
         .views-count { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
         .play-btn { background-color: var(--accent); color: white; border: none; border-radius: 6px; padding: 10px; font-weight: 600; text-align: center; }
 
-        /* 🔄 "Watch More / Load More" Button Styling */
+        /* "Watch More" Button Styling */
         .load-more-container { text-align: center; margin: 30px 0 20px 0; width: 100%; }
         .btn-load-more { background-color: transparent; color: #fff; border: 2px solid var(--accent); padding: 12px 35px; font-size: 15px; font-weight: 700; border-radius: 30px; cursor: pointer; transition: 0.3s; min-width: 200px; }
         .btn-load-more:hover { background-color: var(--accent); box-shadow: 0 0 15px rgba(255, 69, 0, 0.4); }
 
-        /* 🎬 Dedicated Video View Page Layout */
+        /* Video View Page Layout */
         .watch-page-container { display: none; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 20px; }
         .player-main-box { width: 100%; }
         .iframe-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
         .iframe-wrapper iframe { width: 100%; height: 100%; border: none; }
         .watch-title { font-size: 22px; font-weight: 700; margin: 20px 0 10px 0; color: #fff; line-height: 1.4; }
         
-        /* Sidebar For More Random Content */
+        /* Sidebar Layout */
         .sidebar-title { font-size: 18px; font-weight: 700; margin-bottom: 15px; border-left: 4px solid var(--accent); padding-left: 10px; }
         .sidebar-grid { display: flex; flex-direction: column; gap: 20px; }
 
-        /* 🔞 18+ Gate Warning Popup */
+        /* 🔞 18+ Warning Popup */
         .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px); padding: 20px; }
         .popup-content { background-color: #141414; border: 2px solid var(--accent); border-radius: 16px; max-width: 500px; width: 100%; padding: 40px 30px; text-align: center; box-shadow: 0 0 30px rgba(255, 69, 0, 0.3); }
         .popup-icon { font-size: 50px; margin-bottom: 15px; }
@@ -95,7 +94,6 @@
 </head>
 <body>
 
-<!-- Age Alert Popup Gate -->
 <div class="popup-overlay" id="warningPopup">
     <div class="popup-content">
         <div class="popup-icon">🔞</div>
@@ -121,7 +119,6 @@
 <div class="main-container">
     <div class="loader" id="gridLoader"></div>
 
-    <!-- 🏠 HOME PAGE VIEW SECTION -->
     <div id="homePageWrapper">
         <div class="hero">
             <h1>International Premium Network</h1>
@@ -129,13 +126,11 @@
         </div>
         <div class="video-grid" id="videoContainer"></div>
         
-        <!-- Home Page "နောက်ထပ်ကြည့်ရန်" Button -->
         <div class="load-more-container" id="loadMoreSection" style="display: none;">
             <button class="btn-load-more" onclick="loadMoreContent()">နောက်ထပ်ကြည့်ရန် 🔄</button>
         </div>
     </div>
 
-    <!-- 🎬 DEDICATED VIDEO VIEW PAGE SECTION -->
     <div class="watch-page-container" id="watchPageWrapper">
         <div class="player-main-box">
             <div class="iframe-wrapper">
@@ -145,12 +140,10 @@
             <div style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;" id="mainVideoViews">👁️ 0 views</div>
         </div>
         
-        <!-- Sidebar Section -->
         <div class="sidebar-box">
             <h3 class="sidebar-title">Related Content</h3>
             <div class="sidebar-grid" id="sidebarContainer"></div>
             
-            <!-- Sidebar "နောက်ထပ်ကြည့်ရန်" Button -->
             <div class="load-more-container" id="sidebarLoadMoreSection" style="display: none;">
                 <button class="btn-load-more" onclick="loadMoreSidebarContent()">နောက်ထပ်ကြည့်ရန် 🔄</button>
             </div>
@@ -163,18 +156,6 @@
     let currentQuery = 'myanmar'; 
     let currentPage = 1;      
     let sidebarPage = 1;      
-
-    // ⚡ [NEW EXTRA] 100% Force-Click Popunder Trigger Loop
-    // သုံးစွဲသူဆိုက်ထဲမှာ ဘယ်နေရာနှိပ်နှိပ် JuicyAds Link ကို ပွင့်ထွက်သွားစေမယ့် စနစ်ဖြစ်ပါတယ်
-    document.addEventListener("click", function() {
-        const adFlag = sessionStorage.getItem("juicy_fired");
-        // တစ်ခါဝင်ရင် တစ်ကြိမ်ပဲ ပွင့်အောင် ကန့်သတ်ထားပါတယ် (User စိတ်မညစ်ရအောင်)
-        if (!adFlag) {
-            sessionStorage.setItem("juicy_fired", "true");
-            // JuicyAds Rocks တိုက်ရိုက်ခေါ်ယူမှု
-            window.open("https://js.juicyads.com/jp.php?c=4474v2w2w2a4u4r2p2b4037454&u=https%3A%2F%2Fwww.juicyads.rocks", "_blank");
-        }
-    });
 
     document.addEventListener("DOMContentLoaded", () => {
         const hasAccepted = localStorage.getItem("adult_warning_accepted");
@@ -346,8 +327,6 @@
     }
 </script>
 
-<!-- JuicyAds Core Script Injector -->
 <script type="text/javascript" src="https://js.juicyads.com/jp.php?c=4474v2w2w2a4u4r2p2b4037454&u=https%3A%2F%2Fwww.juicyads.rocks"></script>
-
 </body>
 </html>
