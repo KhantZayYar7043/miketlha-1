@@ -3,75 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Premium Content</title>
+    <title>Global Premium Entertainment</title>
+    
     <!-- ⬇️ TrafficStars Popunder Ad Code ထည့်ရန်နေရာ -->
     <script>
-        // Paste your TrafficStars Popunder Code here
+        // TODO: Paste your TrafficStars Popunder Code here
     </script>
     
     <style>
-        :root { --accent: #ff4500; --bg: #0a0a0a; --card: #161616; --text: #e0e0e0; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; }
-        
-        /* Navbar */
-        nav { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
-        .logo { font-size: 24px; font-weight: 800; color: #fff; letter-spacing: -1px; }
+        :root {
+            --accent: #ff4500;
+            --accent-hover: #e03d00;
+            --bg: #0a0a0a;
+            --card: #141414;
+            --card-hover: #1e1e1e;
+            --text-main: #ffffff;
+            --text-muted: #aaaaaa;
+            --border-color: #222222;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Segoe UI', sans-serif; overflow-x: hidden; padding-bottom: 60px; }
+
+        /* Header Layout */
+        header { background-color: rgba(10, 10, 10, 0.95); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; padding: 15px 5%; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+        .logo { font-size: 24px; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; text-transform: uppercase; text-decoration: none; }
         .logo span { color: var(--accent); }
+
+        /* Search Box Features */
+        .search-box { position: relative; width: 300px; max-width: 100%; }
+        .search-box input { width: 100%; background-color: #1a1a1a; border: 1px solid var(--border-color); border-radius: 20px; padding: 10px 20px; padding-right: 45px; color: var(--text-main); font-size: 14px; transition: 0.3s; }
+        .search-box input:focus { outline: none; border-color: var(--accent); background-color: #222; box-shadow: 0 0 8px rgba(255, 69, 0, 0.2); }
+        .search-box button { position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 8px; }
+
+        /* Hero / Headlines */
+        .hero { max-width: 1400px; margin: 40px auto 20px auto; padding: 0 5%; text-align: center; }
+        .hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 10px; }
+        .hero p { color: var(--text-muted); font-size: 15px; }
+
+        /* Video Grid Component */
+        .main-container { max-width: 1400px; margin: 0 auto; padding: 20px 5%; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .video-card { background-color: var(--card); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; transition: 0.3s; display: flex; flex-direction: column; }
+        .video-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); }
+        .thumbnail-wrapper { position: relative; width: 100%; padding-top: 56.25%; background-color: #1a1a1a; }
+        .thumbnail-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        .duration-badge { position: absolute; bottom: 8px; right: 8px; background-color: rgba(0, 0, 0, 0.8); padding: 3px 6px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+        .video-info { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+        .video-title { font-size: 15px; font-weight: 600; line-height: 1.4; margin-bottom: 12px; height: 42px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .play-btn { background-color: var(--accent); color: white; border: none; border-radius: 6px; padding: 10px; font-weight: 600; text-align: center; cursor: pointer; text-decoration: none; display: block; }
+        .play-btn:hover { background-color: var(--accent-hover); }
+
+        /* Popup Box Layout */
+        .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px); padding: 20px; }
+        .popup-content { background-color: #141414; border: 2px solid var(--accent); border-radius: 16px; max-width: 500px; width: 100%; padding: 40px 30px; text-align: center; box-shadow: 0 0 30px rgba(255, 69, 0, 0.3); }
+        .popup-icon { font-size: 50px; margin-bottom: 15px; }
+        .popup-content h2 { font-size: 24px; margin-bottom: 15px; }
+        .popup-content p { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 30px; }
+        .popup-buttons { display: flex; gap: 15px; justify-content: center; }
+        .popup-btn { padding: 12px 30px; font-size: 15px; font-weight: 700; border-radius: 8px; cursor: pointer; min-width: 120px; }
+        .btn-agree { background-color: var(--accent); color: white; border: none; }
+        .btn-disagree { background-color: transparent; color: var(--text-muted); border: 1px solid var(--border-color); }
         
-        /* Hero Section */
-        .hero { padding: 60px 5%; text-align: center; }
-        .hero h1 { font-size: 40px; margin-bottom: 20px; }
-        
-        /* Video Grid - International Look */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; padding: 20px 5%; }
-        .video-card { background: var(--card); border-radius: 12px; overflow: hidden; transition: 0.3s; border: 1px solid #222; }
-        .video-card:hover { transform: translateY(-10px); border-color: var(--accent); }
-        .video-thumb { width: 100%; aspect-ratio: 16/9; background: #222; }
-        .video-info { padding: 15px; }
-        .video-info h3 { font-size: 16px; margin: 0 0 10px 0; }
-        
-        /* Button */
-        .btn { background: var(--accent); color: white; padding: 12px 25px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
+        .loader { display: block; margin: 40px auto; border: 4px solid #222; border-top: 4px solid var(--accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<nav>
-    <div class="logo">GLOBAL<span>PREM</span></div>
-    <div><button class="btn">Login</button></div>
-</nav>
-
-<div class="hero">
-    <h1>Exclusive Content Daily</h1>
-    <p>The best collection of premium adult entertainment worldwide.</p>
+<!-- 18+ Alert Popup Modal -->
+<div class="popup-overlay" id="warningPopup">
+    <div class="popup-content">
+        <div class="popup-icon">🔞</div>
+        <h2>WARNING: AGE RESTRICTED CONTENT</h2>
+        <p>This website contains adult materials and is only suitable for individuals aged 18 years or older. By clicking enter, you confirm that you are at least 18 years old.</p>
+        <div class="popup-buttons">
+            <button class="popup-btn btn-agree" onclick="acceptWarning()">I am 18 or older - Enter</button>
+            <button class="popup-btn btn-disagree" onclick="rejectWarning()">Leave Website</button>
+        </div>
+    </div>
 </div>
 
-<div class="grid" id="videoContainer">
-    <!-- Videos will be injected here -->
+<header>
+    <div class="header-container">
+        <a href="#" class="logo" onclick="window.location.reload(); return false;">GLOBAL<span>PREM</span></a>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search premium videos..." onkeyup="if(event.key === 'Enter') triggerSearch()">
+            <button onclick="triggerSearch()">🔍</button>
+        </div>
+    </div>
+</header>
+
+<div class="hero">
+    <h1>International Premium Network</h1>
+    <p>Enjoy randomized high-quality updates with maximum privacy and speed.</p>
+</div>
+
+<div class="main-container">
+    <div class="loader" id="gridLoader"></div>
+    <div class="video-grid" id="videoContainer" style="display: none;"></div>
 </div>
 
 <script>
-    // TrafficStars API သို့မဟုတ် အခြား feed တစ်ခုခုနဲ့ ချိတ်ဆက်ဖို့ နေရာ
-    const loadContent = () => {
-        const container = document.getElementById('videoContainer');
-        for(let i=0; i<8; i++) {
+    const CONFIG = {
+        // ⚠️ အစ်ကို့ရဲ့ ယခင် ဗီဒီယို API Feed URL ကို ဒီနေရာမှာ လာရောက်အစားထိုးပေးပါရန်
+        API_URL: 'https://api.mahayti.com/v1/videos', 
+        DEFAULT_THUMBNAIL: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500'
+    };
+
+    let allVideosData = [];
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const hasAccepted = localStorage.getItem("adult_warning_accepted");
+        if (hasAccepted === "true") {
+            document.getElementById("warningPopup").style.display = "none";
+            initWebsite();
+        }
+    });
+
+    function acceptWarning() {
+        localStorage.setItem("adult_warning_accepted", "true");
+        document.getElementById("warningPopup").style.display = "none";
+        initWebsite();
+    }
+
+    function rejectWarning() {
+        window.location.href = "https://www.google.com";
+    }
+
+    async function initWebsite() {
+        const loader = document.getElementById("gridLoader");
+        const container = document.getElementById("videoContainer");
+        try {
+            const response = await fetch(CONFIG.API_URL);
+            const data = await response.json();
+            
+            // API standard ပုံစံအလိုက် Data Array ဖမ်းခြင်း
+            allVideosData = Array.isArray(data) ? data : (data.results || data.data || []);
+            
+            // 🔄 လူကြီးမင်းအတွက် ဗီဒီယိုများကို Random ပတ်ပေးမည့် အပိုင်း
+            allVideosData = shuffleArray(allVideosData);
+            renderVideos(allVideosData);
+        } catch (error) {
+            console.error("API Error, using fallback layout:", error);
+            // API ချိတ်ဆက်မှုမအောင်မြင်ပါက Static Data များအား Random လုပ်ပြီး ဆိုဒ်မပျက်အောင် ထိန်းပေးထားမည်
+            allVideosData = shuffleArray(generateDemoData());
+            renderVideos(allVideosData);
+        } finally {
+            loader.style.display = "none";
+            container.style.display = "grid";
+        }
+    }
+
+    // Fisher-Yates Randomization System
+    function shuffleArray(array) {
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex != 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        }
+        return array;
+    }
+
+    function renderVideos(videos) {
+        const container = document.getElementById("videoContainer");
+        container.innerHTML = "";
+        if (videos.length === 0) {
+            container.innerHTML = `<div class="status-msg">No premium content found.</div>`;
+            return;
+        }
+        videos.forEach(video => {
+            const title = video.title || video.name || "Premium Scene";
+            const thumb = video.thumbnail || video.thumb || video.image || CONFIG.DEFAULT_THUMBNAIL;
+            const link = video.link || video.url || "#";
+            const duration = video.duration || "HD";
+            
             container.innerHTML += `
                 <div class="video-card">
-                    <div class="video-thumb"></div>
-                    <div class="video-info">
-                        <h3>Premium Scene ${i+1}</h3>
-                        <button class="btn" style="width:100%">Watch Now</button>
+                    <div class="thumbnail-wrapper">
+                        <img src="${thumb}" alt="${title}" loading="lazy">
+                        <span class="duration-badge">${duration}</span>
                     </div>
-                </div>
-            `;
+                    <div class="video-info">
+                        <h3 class="video-title">${title}</h3>
+                        <a href="${link}" class="play-btn" target="_blank">▶ Watch Now</a>
+                    </div>
+                </div>`;
+        });
+    }
+
+    // Search Engine Filter
+    function triggerSearch() {
+        const query = document.getElementById("searchInput").value.toLowerCase().trim();
+        if (query === "") {
+            renderVideos(shuffleArray([...allVideosData]));
+        } else {
+            const filtered = allVideosData.filter(v => (v.title || v.name || "").toLowerCase().includes(query));
+            renderVideos(filtered);
         }
-    };
-    loadContent();
+    }
+
+    function generateDemoData() {
+        const demo = [];
+        for (let i = 1; i <= 12; i++) {
+            demo.push({ title: `International Ultra HD Premium Scene ${i}`, thumbnail: CONFIG.DEFAULT_THUMBNAIL, link: '#', duration: '12:45' });
+        }
+        return demo;
+    }
 </script>
 
 <!-- ⬇️ TrafficStars In-Page Push Ad Code ထည့်ရန်နေရာ -->
 <script>
-    // Paste your TrafficStars In-Page Push Code here
+    // TODO: Paste your TrafficStars In-Page Push Code here
 </script>
 
 </body>
