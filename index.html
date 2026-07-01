@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- JuicyAds Site Verification -->
-    <meta name="juicyads-site-verification" content="b1f8a2f6ed53f06db2fb8f592f4377c7">
+    <!-- Clickadu Site Verification -->
+    <meta name="clckd" content="8cf386e967f82a02cf217bf272d839dc" />
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -95,9 +95,6 @@
 </head>
 <body>
 
-    <!-- JuicyAds PopUnders v3 Fixed for meviusxxx.com -->
-    <script type="text/javascript" id="juicyads-popunder" src="https://js.juicyads.com/jp.php?c=4474v2w2w2a4u4r2p2b4039434&u=https%3A%2F%2Fmeviusxxx.com"></script>
-
 <div class="popup-overlay" id="warningPopup">
     <div class="popup-content">
         <div class="popup-icon">🔞</div>
@@ -160,25 +157,6 @@
     let currentQuery = 'myanmar'; 
     let currentPage = 1;      
     let sidebarPage = 1;      
-
-    // Force Trigger Popunder on First User Interaction Anywhere
-    document.addEventListener("click", function triggerJuicyPop() {
-        if (typeof window.JuicyPop === "function") {
-            window.JuicyPop();
-        } else {
-            // Fallback: Trigger standard window open if script lags
-            const scriptSrc = document.getElementById("juicyads-popunder")?.src;
-            if (scriptSrc) {
-                const urlParams = new URLSearchParams(scriptSrc.split('?')[1]);
-                const fallbackUrl = urlParams.get('u');
-                if (fallbackUrl) {
-                    console.log("JuicyAds Triggered via Backup");
-                }
-            }
-        }
-        // Remove listener after first trigger to prevent infinite loops
-        document.removeEventListener("click", triggerJuicyPop);
-    }, { once: true });
 
     document.addEventListener("DOMContentLoaded", () => {
         const hasAccepted = localStorage.getItem("adult_warning_accepted");
