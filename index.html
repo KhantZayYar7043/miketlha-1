@@ -1,73 +1,331 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="en">
 <head>
+    <meta name="juicyads-site-verification" content="b1f8a2f6ed53f06db2fb8f592f4377c7">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- JuicyAds Site Verification -->
-    <meta name="juicyads-site-verification" content="b1f8a2f6ed53f06db2fb8f592f4377c7">
-    
-    <title>Mevius Roller</title>
-    
-    <!-- Fluid Player CSS -->
-    <link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css" type="text/css" />
-    <!-- Fluid Player JS -->
-    <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
+    <title>Global Premium Entertainment</title>
     
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
+        :root {
+            --accent: #ff4500;
+            --accent-hover: #e03d00;
+            --bg: #0a0a0a;
+            --card: #141414;
+            --card-hover: #1e1e1e;
+            --text-main: #ffffff;
+            --text-muted: #aaaaaa;
+            --border-color: #222222;
         }
-        .player-container {
-            width: 100%;
-            max-width: 800px;
-            padding: 10px;
-            box-sizing: border-box;
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Segoe UI', Roboto, sans-serif; overflow-x: hidden; padding-bottom: 60px; }
+
+        /* Header Layout */
+        header { background-color: rgba(10, 10, 10, 0.95); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; padding: 15px 5%; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+        .logo { font-size: 24px; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px; text-transform: uppercase; text-decoration: none; cursor: pointer; }
+        .logo span { color: var(--accent); }
+
+        /* Search Box */
+        .search-box { position: relative; width: 300px; max-width: 100%; }
+        .search-box input { width: 100%; background-color: #1a1a1a; border: 1px solid var(--border-color); border-radius: 20px; padding: 10px 20px; padding-right: 45px; color: var(--text-main); font-size: 14px; transition: 0.3s; }
+        .search-box input:focus { outline: none; border-color: var(--accent); background-color: #222; box-shadow: 0 0 8px rgba(255, 69, 0, 0.2); }
+        .search-box button { position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 8px; font-size: 16px; }
+
+        /* Hero Section */
+        .hero { max-width: 1400px; margin: 40px auto 20px auto; padding: 0 5%; text-align: center; }
+        .hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 10px; }
+        .hero p { color: var(--text-muted); font-size: 15px; }
+
+        /* Main Containers */
+        .main-container { max-width: 1400px; margin: 0 auto; padding: 20px 5%; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        
+        /* Video Card Design */
+        .video-card { background-color: var(--card); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; transition: 0.3s; display: flex; flex-direction: column; cursor: pointer; }
+        .video-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); }
+        .thumbnail-wrapper { position: relative; width: 100%; padding-top: 56.25%; background-color: #1a1a1a; overflow: hidden; }
+        .thumbnail-wrapper img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .video-card:hover .thumbnail-wrapper img { transform: scale(1.05); }
+        .duration-badge { position: absolute; bottom: 8px; right: 8px; background-color: rgba(0, 0, 0, 0.8); padding: 3px 6px; border-radius: 4px; font-size: 12px; font-weight: 600; color: #fff; }
+        
+        .video-info { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
+        .video-title { font-size: 15px; font-weight: 600; line-height: 1.4; margin-bottom: 12px; height: 42px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .views-count { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+        .play-btn { background-color: var(--accent); color: white; border: none; border-radius: 6px; padding: 10px; font-weight: 600; text-align: center; }
+
+        /* "Watch More" Button Styling */
+        .load-more-container { text-align: center; margin: 30px 0 20px 0; width: 100%; }
+        .btn-load-more { background-color: transparent; color: #fff; border: 2px solid var(--accent); padding: 12px 35px; font-size: 15px; font-weight: 700; border-radius: 30px; cursor: pointer; transition: 0.3s; min-width: 200px; }
+        .btn-load-more:hover { background-color: var(--accent); box-shadow: 0 0 15px rgba(255, 69, 0, 0.4); }
+
+        /* Video View Page Layout */
+        .watch-page-container { display: none; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 20px; }
+        .player-main-box { width: 100%; }
+        .player-wrapper { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
+        .player-wrapper iframe { width: 100%; height: 100%; border: none; }
+        .watch-title { font-size: 22px; font-weight: 700; margin: 20px 0 10px 0; color: #fff; line-height: 1.4; }
+        
+        /* Sidebar Layout */
+        .sidebar-title { font-size: 18px; font-weight: 700; margin-bottom: 15px; border-left: 4px solid var(--accent); padding-left: 10px; }
+        .sidebar-grid { display: flex; flex-direction: column; gap: 20px; }
+
+        /* 18+ Warning Popup */
+        .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(8px); padding: 20px; }
+        .popup-content { background-color: #141414; border: 2px solid var(--accent); border-radius: 16px; max-width: 500px; width: 100%; padding: 40px 30px; text-align: center; box-shadow: 0 0 30px rgba(255, 69, 0, 0.3); }
+        .popup-icon { font-size: 50px; margin-bottom: 15px; }
+        .popup-content h2 { font-size: 24px; margin-bottom: 15px; }
+        .popup-content p { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin-bottom: 30px; }
+        .popup-buttons { display: flex; gap: 15px; justify-content: center; }
+        .popup-btn { padding: 12px 30px; font-size: 15px; font-weight: 700; border-radius: 8px; cursor: pointer; min-width: 120px; }
+        .btn-agree { background-color: var(--accent); color: white; border: none; }
+        .btn-disagree { background-color: transparent; color: var(--text-muted); border: 1px solid var(--border-color); }
+        
+        .loader { display: block; margin: 40px auto; border: 4px solid #222; border-top: 4px solid var(--accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .status-msg { text-align: center; color: var(--text-muted); padding: 40px; grid-column: 1 / -1; }
+
+        @media (max-width: 992px) {
+            .watch-page-container { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div class="player-container">
-        <video id="mevius-video" controls style="width: 100%; height: auto;">
-            <!-- ဗီဒီယို Source လင့်ခ်ကို လိုအပ်သလို ထည့်သွင်းရန် -->
-            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
-        </video>
+<div class="popup-overlay" id="warningPopup">
+    <div class="popup-content">
+        <div class="popup-icon">🔞</div>
+        <h2>WARNING: AGE RESTRICTED CONTENT</h2>
+        <p>This website contains adult materials and is only suitable for individuals aged 18 years or older. By clicking enter, you confirm that you are at least 18 years old.</p>
+        <div class="popup-buttons">
+            <button class="popup-btn btn-agree" onclick="acceptWarning()">I am 18 or older - Enter</button>
+            <button class="popup-btn btn-disagree" onclick="rejectWarning()">Leave Website</button>
+        </div>
+    </div>
+</div>
+
+<header>
+    <div class="header-container">
+        <a href="#" class="logo" onclick="resetToHome(); return false;">GLOBAL<span>PREM</span></a>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search premium videos..." onkeyup="if(event.key === 'Enter') handleSearch()">
+            <button onclick="handleSearch()">🔍</button>
+        </div>
+    </div>
+</header>
+
+<div class="main-container">
+    <div class="loader" id="gridLoader"></div>
+
+    <div id="homePageWrapper">
+        <div class="hero">
+            <h1>International Premium Network</h1>
+            <p>Enjoy randomized high-quality updates with maximum privacy and speed. (VPN Required)</p>
+        </div>
+        <div class="video-grid" id="videoContainer"></div>
+        
+        <div class="load-more-container" id="loadMoreSection" style="display: none;">
+            <button class="btn-load-more" onclick="loadMoreContent()">နောက်ထပ်ကြည့်ရန် 🔄</button>
+        </div>
     </div>
 
-    <script>
-        // Fluid Player Initialization
-        var myPlayer = fluidPlayer(
-            'mevius-video',
-            {
-                layoutControls: {
-                    fillToContainer: true,
-                    posterImage: '', // ဗီဒီယို Poster ပုံထည့်ရန် (သတ်မှတ်လိုပါက)
-                    autoPlay: false,
-                    mute: false,
-                    allowTheatre: true,
-                    playPauseAnimation: true,
-                    playbackRateEnabled: true,
-                    allowDownload: false,
-                    logo: {
-                        imageUrl: '', // လိုဂိုပုံထည့်ရန် (သတ်မှတ်လိုပါက)
-                        position: 'top right',
-                        clickUrl: '#'
-                    }
-                },
-                vastOptions: {
-                    // JuicyAds သို့မဟုတ် TrafficStars ကရလာမယ့် ဗီဒီယို VAST Ads လင့်ခ်ကို ဤနေရာတွင် ထည့်ပါရန်
-                    adList: []
+    <div class="watch-page-container" id="watchPageWrapper">
+        <div class="player-main-box">
+            <div class="player-wrapper">
+                <iframe id="mainVideoEmbed" src="" allowfullscreen data-vast="https://s.magsrv.com/v1/vast.php?idz=5962848"></iframe>
+            </div>
+            <h2 class="watch-title" id="mainVideoTitle">Premium Exclusive Video Title</h2>
+            <div style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;" id="mainVideoViews">👁️ 0 views</div>
+        </div>
+        
+        <div class="sidebar-box">
+            <h3 class="sidebar-title">Related Content</h3>
+            <div class="sidebar-grid" id="sidebarContainer"></div>
+            
+            <div class="load-more-container" id="sidebarLoadMoreSection" style="display: none;">
+                <button class="btn-load-more" onclick="loadMoreSidebarContent()">နောက်ထပ်ကြည့်ရန် 🔄</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_BASE = 'https://www.eporner.com/api/v2/video/search/';
+    let currentQuery = 'myanmar'; 
+    let currentPage = 1;      
+    let sidebarPage = 1;      
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const hasAccepted = localStorage.getItem("adult_warning_accepted");
+        if (hasAccepted === "true") {
+            document.getElementById("warningPopup").style.display = "none";
+            initFetch();
+        }
+    });
+
+    function acceptWarning() {
+        localStorage.setItem("adult_warning_accepted", "true");
+        document.getElementById("warningPopup").style.display = "none";
+        initFetch();
+    }
+
+    function rejectWarning() {
+        window.location.href = "https://www.google.com";
+    }
+
+    function shuffleArray(array) {
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex != 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        }
+        return array;
+    }
+
+    function initFetch() {
+        currentPage = Math.floor(Math.random() * 15) + 1; 
+        fetchEpornerVideos(currentQuery, currentPage, false);
+    }
+
+    async function fetchEpornerVideos(query, page, isAppend = false) {
+        const loader = document.getElementById("gridLoader");
+        const container = document.getElementById("videoContainer");
+        const loadMoreSection = document.getElementById("loadMoreSection");
+        
+        loader.style.display = "block";
+        loadMoreSection.style.display = "none";
+        
+        if (!isAppend) { container.innerHTML = ""; }
+
+        const targetUrl = `${API_BASE}?query=${encodeURIComponent(query)}&per_page=24&page=${page}&thumbsize=big`;
+
+        try {
+            const res = await fetch(targetUrl);
+            const data = await res.json();
+
+            if (data && data.videos && data.videos.length > 0) {
+                const randomizedBatch = shuffleArray(data.videos);
+                renderVideoGrid(randomizedBatch, isAppend);
+                loadMoreSection.style.display = "block";
+            } else {
+                if (!isAppend) {
+                    container.innerHTML = `<div class="status-msg">No videos found. Please try another search keyword.</div>`;
                 }
             }
-        );
-    </script>
+        } catch (error) {
+            console.error("API error:", error);
+            if (!isAppend) {
+                container.innerHTML = `<div class="status-msg">API Error: Please ensure your VPN is turned ON.</div>`;
+            }
+        } finally {
+            loader.style.display = "none";
+        }
+    }
+
+    function renderVideoGrid(videos, isAppend) {
+        const container = document.getElementById("videoContainer");
+        videos.forEach(v => {
+            const card = createVideoCardElement(v);
+            container.appendChild(card);
+        });
+    }
+
+    function createVideoCardElement(v) {
+        const title = v.title;
+        const thumb = v.default_thumb ? v.default_thumb.src : '';
+        const duration = `${v.length_min || '00'}:${v.length_sec || '00'}`;
+        const views = parseInt(v.views).toLocaleString();
+        const embedUrl = v.embed || '';
+
+        const card = document.createElement('div');
+        card.className = 'video-card';
+        card.innerHTML = `
+            <div class="thumbnail-wrapper">
+                <img src="${thumb}" alt="${title}" loading="lazy">
+                <span class="duration-badge">${duration}</span>
+            </div>
+            <div class="video-info">
+                <h3 class="video-title">${title}</h3>
+                <div class="views-count">👁️ ${views} views</div>
+                <button class="play-btn">▶ Watch Now</button>
+            </div>
+        `;
+        card.onclick = () => switchToVideoViewPage(embedUrl, title, views);
+        return card;
+    }
+
+    function loadMoreContent() {
+        currentPage++;
+        fetchEpornerVideos(currentQuery, currentPage, true);
+    }
+
+    function switchToVideoViewPage(embedUrl, title, views) {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        document.getElementById("homePageWrapper").style.display = "none";
+        document.getElementById("watchPageWrapper").style.display = "grid";
+
+        document.getElementById("mainVideoTitle").innerText = title;
+        document.getElementById("mainVideoViews").innerText = `👁️ ${views} views`;
+        document.getElementById("mainVideoEmbed").src = embedUrl;
+
+        sidebarPage = Math.floor(Math.random() * 20) + 1;
+        renderSidebarContent(false);
+    }
+
+    async function renderSidebarContent(isAppend = false) {
+        const sidebarContainer = document.getElementById("sidebarContainer");
+        const sidebarLoadMoreSection = document.getElementById("sidebarLoadMoreSection");
+        
+        if (!isAppend) { sidebarContainer.innerHTML = ""; }
+        sidebarLoadMoreSection.style.display = "none";
+
+        const targetUrl = `${API_BASE}?query=${encodeURIComponent(currentQuery)}&per_page=6&page=${sidebarPage}&thumbsize=big`;
+        
+        try {
+            const res = await fetch(targetUrl);
+            const data = await res.json();
+            if (data && data.videos && data.videos.length > 0) {
+                shuffleArray(data.videos).forEach(v => {
+                    const card = createVideoCardElement(v);
+                    sidebarContainer.appendChild(card);
+                });
+                sidebarLoadMoreSection.style.display = "block";
+            }
+        } catch (err) {
+            console.error("Sidebar load error:", err);
+        }
+    }
+
+    function loadMoreSidebarContent() {
+        sidebarPage++;
+        renderSidebarContent(true);
+    }
+
+    function resetToHome() {
+        document.getElementById("mainVideoEmbed").src = "";
+        document.getElementById("watchPageWrapper").style.display = "none";
+        document.getElementById("homePageWrapper").style.display = "block";
+        document.getElementById("searchInput").value = "";
+        currentQuery = 'myanmar';
+        initFetch();
+    }
+
+    function handleSearch() {
+        const value = document.getElementById("searchInput").value.trim();
+        if (value !== "") {
+            document.getElementById("mainVideoEmbed").src = "";
+            document.getElementById("watchPageWrapper").style.display = "none";
+            document.getElementById("homePageWrapper").style.display = "block";
+            
+            currentQuery = value;
+            currentPage = 1;
+            fetchEpornerVideos(currentQuery, currentPage, false);
+        }
+    }
+</script>
 
 </body>
 </html>
